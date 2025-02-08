@@ -37,7 +37,10 @@
     if (isUltra) {
       document.documentElement.setAttribute('data-theme', 'ultra-dark');
     }
-    const theme = isDarkTheme ? 'dark' : 'light';
+    theme = window.appearance;
+	if (!theme) {
+		theme - isDarkTheme ? 'dark' : 'light';
+	}
     document.querySelector('body').setAttribute('class', theme);
     return {
       animationsOff() {
