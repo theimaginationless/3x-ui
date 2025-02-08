@@ -1,31 +1,10 @@
 {{define "component/themeSwitchTemplate"}}
 <template>
-  <a-menu :theme="themeSwitcher.currentTheme" mode="inline" selected-keys="">
-    <a-sub-menu>
-      <span slot="title">
-        <a-icon type="bulb" :theme="themeSwitcher.isDarkTheme ? 'filled' : 'outlined'"></a-icon>
-        <span>Theme</span>
-      </span>
-      <a-menu-item id="change-theme" class="ant-menu-theme-switch" @mousedown="themeSwitcher.animationsOff()"> Dark <a-switch style="margin-left: 2px;" size="small" :default-checked="themeSwitcher.isDarkTheme" @change="themeSwitcher.toggleTheme()"></a-switch>
-      </a-menu-item>
-      <a-menu-item id="change-theme-ultra" v-if="themeSwitcher.isDarkTheme" class="ant-menu-theme-switch" @mousedown="themeSwitcher.animationsOffUltra()"> Ultra <a-checkbox style="margin-left: 2px;" :checked="themeSwitcher.isUltra" @click="themeSwitcher.toggleUltra()"></a-checkbox>
-      </a-menu-item>
-    </a-sub-menu>
-  </a-menu>
 </template>
 {{end}}
 
 {{define "component/themeSwitchTemplateLogin"}}
 <template>
-  <a-menu @mousedown="themeSwitcher.animationsOff()" id="change-theme" :theme="themeSwitcher.currentTheme" mode="inline" selected-keys="">
-    <a-menu-item mode="inline" class="ant-menu-theme-switch">
-      <a-icon type="bulb" :theme="themeSwitcher.isDarkTheme ? 'filled' : 'outlined'"></a-icon>
-      <a-switch size="small" :default-checked="themeSwitcher.isDarkTheme" @change="themeSwitcher.toggleTheme()"></a-switch>
-      <template v-if="themeSwitcher.isDarkTheme">
-        <a-checkbox style="margin-left: 1rem; vertical-align: middle;" :checked="themeSwitcher.isUltra" @click="themeSwitcher.toggleUltra()">Ultra</a-checkbox>
-      </template>
-    </a-menu-item>
-  </a-menu>
 </template>
 {{end}}
 
@@ -34,13 +13,11 @@
   function createThemeSwitcher() {
     const isDarkTheme = localStorage.getItem('dark-mode') === 'true';
     const isUltra = localStorage.getItem('isUltraDarkThemeEnabled') === 'true';
-    if (isUltra) {
-      document.documentElement.setAttribute('data-theme', 'ultra-dark');
-    }
-    theme = window.appearance;
-	if (!theme) {
-	  theme - isDarkTheme ? 'dark' : 'light';
-	}
+    document.documentElement.setAttribute('data-theme', 'ultra-dark');
+    theme = "light";
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+	    theme = "dark";
+	  }
     document.querySelector('body').setAttribute('class', theme);
     return {
       animationsOff() {
@@ -66,12 +43,17 @@
       isDarkTheme,
       isUltra,
       get currentTheme() {
-        return this.isDarkTheme ? 'dark' : 'light';
+		  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		    theme = "dark";
+		  } else {
+			  theme = "light";
+		  }
+        return theme;
       },
-      toggleTheme() {
-        this.isDarkTheme = !this.isDarkTheme;
+      toggleTheme(theme) {
+        this.isDarkTheme = theme === 'dark' ? 'true' : 'false';
         localStorage.setItem('dark-mode', this.isDarkTheme);
-        document.querySelector('body').setAttribute('class', this.isDarkTheme ? 'dark' : 'light');
+        document.querySelector('body').setAttribute('class', theme);
         document.getElementById('message').className = themeSwitcher.currentTheme;
       },
       toggleUltra() {
@@ -96,6 +78,10 @@
       this.$message.config({
         getContainer: () => document.getElementById('message')
       });
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  	    const theme = e.matches ? "dark" : "light";
+        themeSwitcher.toggleTheme(theme);
+  	  });
       document.getElementById('message').className = themeSwitcher.currentTheme;
     }
   });
@@ -109,6 +95,10 @@
       this.$message.config({
         getContainer: () => document.getElementById('message')
       });
+  	  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  	    const theme = e.matches ? "dark" : "light";
+        themeSwitcher.toggleTheme(theme);
+  	  });
       document.getElementById('message').className = themeSwitcher.currentTheme;
     }
   });
