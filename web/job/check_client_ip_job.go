@@ -37,7 +37,7 @@ func (j *CheckClientIpJob) Run() {
 	shouldClearAccessLog := false
 	iplimitActive := j.hasLimitIp()
 	f2bInstalled := j.checkFail2BanInstalled()
-	isAccessLogAvailable := j.checkAccessLogAvailable(iplimitActive)
+	isAccessLogAvailable := j.checkAccessLogAvailable()
 
 	if iplimitActive {
 		if f2bInstalled && isAccessLogAvailable {
@@ -170,20 +170,12 @@ func (j *CheckClientIpJob) checkFail2BanInstalled() bool {
 	return err == nil
 }
 
-func (j *CheckClientIpJob) checkAccessLogAvailable(iplimitActive bool) bool {
+func (j *CheckClientIpJob) checkAccessLogAvailable() bool {
 	accessLogPath, err := xray.GetAccessLogPath()
 	if err != nil {
 		return false
 	}
-
-	if accessLogPath == "none" || accessLogPath == "" {
-		if iplimitActive {
-			logger.Warning("[LimitIP] Access log path is not set, Please configure the access log path in Xray configs.")
-		}
-		return false
-	}
-
-	return true
+	return accessLogPath != "none" && accessLogPath != ""
 }
 
 func (j *CheckClientIpJob) checkError(e error) {
