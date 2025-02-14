@@ -236,35 +236,6 @@
                   <a-button type="primary" :loading="this.changeSecret" @click="updateSecret">{{ i18n "confirm" }}</a-button>
                 </a-form>
               </a-tab-pane>
-              <a-tab-pane key="3" tab='{{ i18n "pages.settings.TGBotSettings"}}'>
-                <a-list item-layout="horizontal">
-                  <setting-list-item type="switch" title='{{ i18n "pages.settings.telegramBotEnable" }}' desc='{{ i18n "pages.settings.telegramBotEnableDesc" }}' v-model="allSetting.tgBotEnable"></setting-list-item>
-                  <setting-list-item type="text" title='{{ i18n "pages.settings.telegramToken"}}' desc='{{ i18n "pages.settings.telegramTokenDesc"}}' v-model="allSetting.tgBotToken"></setting-list-item>
-                  <setting-list-item type="text" title='{{ i18n "pages.settings.telegramChatId"}}' desc='{{ i18n "pages.settings.telegramChatIdDesc"}}' v-model="allSetting.tgBotChatId"></setting-list-item>
-                  <setting-list-item type="text" title='{{ i18n "pages.settings.telegramNotifyTime"}}' desc='{{ i18n "pages.settings.telegramNotifyTimeDesc"}}' v-model="allSetting.tgRunTime"></setting-list-item>
-                  <setting-list-item type="switch" title='{{ i18n "pages.settings.tgNotifyBackup" }}' desc='{{ i18n "pages.settings.tgNotifyBackupDesc" }}' v-model="allSetting.tgBotBackup"></setting-list-item>
-                  <setting-list-item type="switch" title='{{ i18n "pages.settings.tgNotifyLogin" }}' desc='{{ i18n "pages.settings.tgNotifyLoginDesc" }}' v-model="allSetting.tgBotLoginNotify"></setting-list-item>
-                  <setting-list-item type="number" title='{{ i18n "pages.settings.tgNotifyCpu" }}' desc='{{ i18n "pages.settings.tgNotifyCpuDesc" }}' v-model="allSetting.tgCpu" :min="0" :max="100"></setting-list-item>
-                  <setting-list-item type="text" title='{{ i18n "pages.settings.telegramProxy"}}' desc='{{ i18n "pages.settings.telegramProxyDesc"}}' v-model="allSetting.tgBotProxy" placeholder="socks5://user:pass@host:port"></setting-list-item>
-                  <setting-list-item type="text" title='{{ i18n "pages.settings.telegramAPIServer"}}' desc='{{ i18n "pages.settings.telegramAPIServerDesc"}}' v-model="allSetting.tgBotAPIServer" placeholder="https://api.example.com"></setting-list-item>
-                  <a-list-item>
-                    <a-row style="padding: 20px">
-                      <a-col :lg="24" :xl="12">
-                        <a-list-item-meta title="Telegram Bot Language" />
-                      </a-col>
-                      <a-col :lg="24" :xl="12">
-                        <template>
-                          <a-select ref="selectBotLang" v-model="allSetting.tgLang" :dropdown-class-name="themeSwitcher.currentTheme" style="width: 100%">
-                            <a-select-option :value="l.value" :label="l.value" v-for="l in supportLangs">
-                              <span role="img" :aria-label="l.name" v-text="l.icon"></span> &nbsp;&nbsp; <span v-text="l.name"></span>
-                            </a-select-option>
-                          </a-select>
-                        </template>
-                      </a-col>
-                    </a-row>
-                  </a-list-item>
-                </a-list>
-              </a-tab-pane>
               <a-tab-pane key="4" tab='{{ i18n "pages.settings.subSettings" }}'>
                 <a-list item-layout="horizontal">
                   <setting-list-item type="switch" title='{{ i18n "pages.settings.subEnable"}}' desc='{{ i18n "pages.settings.subEnableDesc"}}' v-model="allSetting.subEnable"></setting-list-item>

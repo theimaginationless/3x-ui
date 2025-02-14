@@ -51,18 +51,6 @@
             </template>
             <a-input v-model.trim="clientsBulkModal.subId"></a-input>
         </a-form-item>
-        <a-form-item v-if="app.tgBotEnable">
-            <template slot="label">
-                <a-tooltip>
-                    <template slot="title">
-                        <span>{{ i18n "pages.inbounds.telegramDesc" }}</span>
-                    </template>
-                    Telegram ChatID
-                    <a-icon type="question-circle"></a-icon>
-                </a-tooltip>
-            </template>
-            <a-input-number style="width: 50%" v-model.number="clientsBulkModal.tgId" min="0"></a-input-number>
-        </a-form-item>
         <a-form-item v-if="app.ipLimitEnable">
             <template slot="label">
                 <a-tooltip>

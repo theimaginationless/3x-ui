@@ -1223,65 +1223,6 @@ func (s *InboundService) GetClientByEmail(clientEmail string) (*xray.ClientTraff
 	return nil, nil, common.NewError("Client Not Found In Inbound For Email:", clientEmail)
 }
 
-func (s *InboundService) SetClientTelegramUserID(trafficId int, tgId int64) (bool, error) {
-	traffic, inbound, err := s.GetClientInboundByTrafficID(trafficId)
-	if err != nil {
-		return false, err
-	}
-	if inbound == nil {
-		return false, common.NewError("Inbound Not Found For Traffic ID:", trafficId)
-	}
-
-	clientEmail := traffic.Email
-
-	oldClients, err := s.GetClients(inbound)
-	if err != nil {
-		return false, err
-	}
-
-	clientId := ""
-
-	for _, oldClient := range oldClients {
-		if oldClient.Email == clientEmail {
-			if inbound.Protocol == "trojan" {
-				clientId = oldClient.Password
-			} else if inbound.Protocol == "shadowsocks" {
-				clientId = oldClient.Email
-			} else {
-				clientId = oldClient.ID
-			}
-			break
-		}
-	}
-
-	if len(clientId) == 0 {
-		return false, common.NewError("Client Not Found For Email:", clientEmail)
-	}
-
-	var settings map[string]interface{}
-	err = json.Unmarshal([]byte(inbound.Settings), &settings)
-	if err != nil {
-		return false, err
-	}
-	clients := settings["clients"].([]interface{})
-	var newClients []interface{}
-	for client_index := range clients {
-		c := clients[client_index].(map[string]interface{})
-		if c["email"] == clientEmail {
-			c["tgId"] = tgId
-			newClients = append(newClients, interface{}(c))
-		}
-	}
-	settings["clients"] = newClients
-	modifiedSettings, err := json.MarshalIndent(settings, "", "  ")
-	if err != nil {
-		return false, err
-	}
-	inbound.Settings = string(modifiedSettings)
-	needRestart, err := s.UpdateInboundClient(inbound, clientId)
-	return needRestart, err
-}
-
 func (s *InboundService) checkIsEnabledByEmail(clientEmail string) (bool, error) {
 	_, inbound, err := s.GetClientInboundByEmail(clientEmail)
 	if err != nil {

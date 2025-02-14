@@ -189,43 +189,6 @@ func updateTgbotEnableSts(status bool) {
 	}
 }
 
-func updateTgbotSetting(tgBotToken string, tgBotChatid string, tgBotRuntime string) {
-	err := database.InitDB(config.GetDBPath())
-	if err != nil {
-		fmt.Println("Error initializing database:", err)
-		return
-	}
-
-	settingService := service.SettingService{}
-
-	if tgBotToken != "" {
-		err := settingService.SetTgBotToken(tgBotToken)
-		if err != nil {
-			fmt.Printf("Error setting Telegram bot token: %v\n", err)
-			return
-		}
-		logger.Info("Successfully updated Telegram bot token.")
-	}
-
-	if tgBotRuntime != "" {
-		err := settingService.SetTgbotRuntime(tgBotRuntime)
-		if err != nil {
-			fmt.Printf("Error setting Telegram bot runtime: %v\n", err)
-			return
-		}
-		logger.Infof("Successfully updated Telegram bot runtime to [%s].", tgBotRuntime)
-	}
-
-	if tgBotChatid != "" {
-		err := settingService.SetTgBotChatId(tgBotChatid)
-		if err != nil {
-			fmt.Printf("Error setting Telegram bot chat ID: %v\n", err)
-			return
-		}
-		logger.Info("Successfully updated Telegram bot chat ID.")
-	}
-}
-
 func updateSetting(port int, username string, password string, webBasePath string, listenIP string) {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
@@ -393,10 +356,6 @@ func main() {
 	var getListen bool
 	var webCertFile string
 	var webKeyFile string
-	var tgbottoken string
-	var tgbotchatid string
-	var enabletgbot bool
-	var tgbotRuntime string
 	var reset bool
 	var show bool
 	var getCert bool
@@ -413,10 +372,6 @@ func main() {
 	settingCmd.BoolVar(&getCert, "getCert", false, "Display current certificate settings")
 	settingCmd.StringVar(&webCertFile, "webCert", "", "Set path to public key file for panel")
 	settingCmd.StringVar(&webKeyFile, "webCertKey", "", "Set path to private key file for panel")
-	settingCmd.StringVar(&tgbottoken, "tgbottoken", "", "Set token for Telegram bot")
-	settingCmd.StringVar(&tgbotRuntime, "tgbotRuntime", "", "Set cron time for Telegram bot notifications")
-	settingCmd.StringVar(&tgbotchatid, "tgbotchatid", "", "Set chat ID for Telegram bot notifications")
-	settingCmd.BoolVar(&enabletgbot, "enabletgbot", false, "Enable notifications via Telegram bot")
 
 	oldUsage := flag.Usage
 	flag.Usage = func() {
