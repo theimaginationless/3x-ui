@@ -38,16 +38,6 @@ var defaultValueMap = map[string]string{
 	"trafficDiff":        "0",
 	"remarkModel":        "-ieo",
 	"timeLocation":       "Local",
-	"tgBotEnable":        "false",
-	"tgBotToken":         "",
-	"tgBotProxy":         "",
-	"tgBotAPIServer":     "",
-	"tgBotChatId":        "",
-	"tgRunTime":          "@daily",
-	"tgBotBackup":        "false",
-	"tgBotLoginNotify":   "true",
-	"tgCpu":              "80",
-	"tgLang":             "en-US",
 	"secretEnable":       "false",
 	"subEnable":          "false",
 	"subListen":          "",
@@ -249,70 +239,6 @@ func (s *SettingService) SetListen(ip string) error {
 
 func (s *SettingService) GetWebDomain() (string, error) {
 	return s.getString("webDomain")
-}
-
-func (s *SettingService) GetTgBotToken() (string, error) {
-	return s.getString("tgBotToken")
-}
-
-func (s *SettingService) SetTgBotToken(token string) error {
-	return s.setString("tgBotToken", token)
-}
-
-func (s *SettingService) GetTgBotProxy() (string, error) {
-	return s.getString("tgBotProxy")
-}
-
-func (s *SettingService) SetTgBotProxy(token string) error {
-	return s.setString("tgBotProxy", token)
-}
-
-func (s *SettingService) GetTgBotAPIServer() (string, error) {
-	return s.getString("tgBotAPIServer")
-}
-
-func (s *SettingService) SetTgBotAPIServer(token string) error {
-	return s.setString("tgBotAPIServer", token)
-}
-
-func (s *SettingService) GetTgBotChatId() (string, error) {
-	return s.getString("tgBotChatId")
-}
-
-func (s *SettingService) SetTgBotChatId(chatIds string) error {
-	return s.setString("tgBotChatId", chatIds)
-}
-
-func (s *SettingService) GetTgbotEnabled() (bool, error) {
-	return s.getBool("tgBotEnable")
-}
-
-func (s *SettingService) SetTgbotEnabled(value bool) error {
-	return s.setBool("tgBotEnable", value)
-}
-
-func (s *SettingService) GetTgbotRuntime() (string, error) {
-	return s.getString("tgRunTime")
-}
-
-func (s *SettingService) SetTgbotRuntime(time string) error {
-	return s.setString("tgRunTime", time)
-}
-
-func (s *SettingService) GetTgBotBackup() (bool, error) {
-	return s.getBool("tgBotBackup")
-}
-
-func (s *SettingService) GetTgBotLoginNotify() (bool, error) {
-	return s.getBool("tgBotLoginNotify")
-}
-
-func (s *SettingService) GetTgCpu() (int, error) {
-	return s.getInt("tgCpu")
-}
-
-func (s *SettingService) GetTgLang() (string, error) {
-	return s.getString("tgLang")
 }
 
 func (s *SettingService) GetPort() (int, error) {
@@ -542,7 +468,6 @@ func (s *SettingService) GetDefaultSettings(host string) (interface{}, error) {
 		"pageSize":      func() (interface{}, error) { return s.GetPageSize() },
 		"defaultCert":   func() (interface{}, error) { return s.GetCertFile() },
 		"defaultKey":    func() (interface{}, error) { return s.GetKeyFile() },
-		"tgBotEnable":   func() (interface{}, error) { return s.GetTgbotEnabled() },
 		"subEnable":     func() (interface{}, error) { return s.GetSubEnable() },
 		"subURI":        func() (interface{}, error) { return s.GetSubURI() },
 		"subJsonURI":    func() (interface{}, error) { return s.GetSubJsonURI() },

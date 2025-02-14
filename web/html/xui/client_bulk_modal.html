@@ -132,7 +132,6 @@
         emailPrefix: "",
         emailPostfix: "",
         subId: "",
-        tgId: '',
         security: "auto",
         flow: "",
         delayedStart: false,
@@ -155,7 +154,6 @@
                 if (method == 4) newClient.email = "";
                 newClient.email += useNum ? prefix + i.toString() + postfix : prefix + postfix;
                 if (clientsBulkModal.subId.length > 0) newClient.subId = clientsBulkModal.subId;
-                newClient.tgId = clientsBulkModal.tgId;
                 newClient.security = clientsBulkModal.security;
                 newClient.limitIp = clientsBulkModal.limitIp;
                 newClient._totalGB = clientsBulkModal.totalGB;
@@ -188,7 +186,6 @@
             this.emailPrefix = "";
             this.emailPostfix = "";
             this.subId = "";
-            this.tgId = '';
             this.security = "auto";
             this.flow = "";
             this.dbInbound = new DBInbound(dbInbound);

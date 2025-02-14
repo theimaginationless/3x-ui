@@ -170,25 +170,6 @@ func showSetting(show bool) {
 	}
 }
 
-func updateTgbotEnableSts(status bool) {
-	settingService := service.SettingService{}
-	currentTgSts, err := settingService.GetTgbotEnabled()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	logger.Infof("current enabletgbot status[%v],need update to status[%v]", currentTgSts, status)
-	if currentTgSts != status {
-		err := settingService.SetTgbotEnabled(status)
-		if err != nil {
-			fmt.Println(err)
-			return
-		} else {
-			logger.Infof("SetTgbotEnabled[%v] success", status)
-		}
-	}
-}
-
 func updateSetting(port int, username string, password string, webBasePath string, listenIP string) {
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
@@ -419,14 +400,8 @@ func main() {
 		if getCert {
 			GetCertificate(getCert)
 		}
-		if (tgbottoken != "") || (tgbotchatid != "") || (tgbotRuntime != "") {
-			updateTgbotSetting(tgbottoken, tgbotchatid, tgbotRuntime)
-		}
 		if remove_secret {
 			removeSecret()
-		}
-		if enabletgbot {
-			updateTgbotEnableSts(enabletgbot)
 		}
 	case "cert":
 		err := settingCmd.Parse(os.Args[2:])
