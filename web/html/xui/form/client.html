@@ -56,18 +56,6 @@
         </template>
         <a-input v-model.trim="client.subId"></a-input>
     </a-form-item>
-    <a-form-item v-if="client.email && app.tgBotEnable">
-        <template slot="label">
-            <a-tooltip>
-                <template slot="title">
-                    <span>{{ i18n "pages.inbounds.telegramDesc" }}</span>
-                </template>
-                Telegram ChatID
-                <a-icon type="question-circle"></a-icon>
-            </a-tooltip>
-        </template>
-        <a-input-number style="width: 50%" v-model.number="client.tgId" min="0"></a-input-number>
-    </a-form-item>
     <a-form-item v-if="client.email" label='{{ i18n "comment" }}'>
         <a-input v-model.trim="client.comment"></a-input>
     </a-form-item>

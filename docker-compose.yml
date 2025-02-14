@@ -3,8 +3,8 @@ version: "3"
 
 services:
   3x-ui:
-    image: ghcr.io/mhsanaei/3x-ui:latest
-    container_name: 3x-ui
+    image: ghcr.io/theimaginationless/3x-ui-ext:latest
+    container_name: 3x-ui-ext
     hostname: yourhostname
     volumes:
       - $PWD/db/:/etc/x-ui/

@@ -1784,7 +1784,6 @@ Inbound.VmessSettings.VMESS = class extends XrayCommonClass {
         totalGB = 0,
         expiryTime = 0,
         enable = true,
-        tgId = '',
         subId = RandomUtil.randomLowerAndNum(16),
         comment = '',
         reset = 0
@@ -1797,7 +1796,6 @@ Inbound.VmessSettings.VMESS = class extends XrayCommonClass {
         this.totalGB = totalGB;
         this.expiryTime = expiryTime;
         this.enable = enable;
-        this.tgId = tgId;
         this.subId = subId;
         this.comment = comment;
         this.reset = reset;
@@ -1812,7 +1810,6 @@ Inbound.VmessSettings.VMESS = class extends XrayCommonClass {
             json.totalGB,
             json.expiryTime,
             json.enable,
-            json.tgId,
             json.subId,
             json.comment,
             json.reset,
@@ -1893,7 +1890,6 @@ Inbound.VLESSSettings.VLESS = class extends XrayCommonClass {
         totalGB = 0,
         expiryTime = 0,
         enable = true,
-        tgId = '',
         subId = RandomUtil.randomLowerAndNum(16),
         comment = '',
         reset = 0
@@ -1906,7 +1902,6 @@ Inbound.VLESSSettings.VLESS = class extends XrayCommonClass {
         this.totalGB = totalGB;
         this.expiryTime = expiryTime;
         this.enable = enable;
-        this.tgId = tgId;
         this.subId = subId;
         this.comment = comment;
         this.reset = reset;
@@ -1921,7 +1916,6 @@ Inbound.VLESSSettings.VLESS = class extends XrayCommonClass {
             json.totalGB,
             json.expiryTime,
             json.enable,
-            json.tgId,
             json.subId,
             json.comment,
             json.reset,
@@ -2032,7 +2026,6 @@ Inbound.TrojanSettings.Trojan = class extends XrayCommonClass {
         totalGB = 0,
         expiryTime = 0,
         enable = true,
-        tgId = '',
         subId = RandomUtil.randomLowerAndNum(16),
         comment = '',
         reset = 0
@@ -2044,7 +2037,6 @@ Inbound.TrojanSettings.Trojan = class extends XrayCommonClass {
         this.totalGB = totalGB;
         this.expiryTime = expiryTime;
         this.enable = enable;
-        this.tgId = tgId;
         this.subId = subId;
         this.comment = comment;
         this.reset = reset;
@@ -2058,7 +2050,6 @@ Inbound.TrojanSettings.Trojan = class extends XrayCommonClass {
             totalGB: this.totalGB,
             expiryTime: this.expiryTime,
             enable: this.enable,
-            tgId: this.tgId,
             subId: this.subId,
             comment: this.comment,
             reset: this.reset,
@@ -2073,7 +2064,6 @@ Inbound.TrojanSettings.Trojan = class extends XrayCommonClass {
             json.totalGB,
             json.expiryTime,
             json.enable,
-            json.tgId,
             json.subId,
             json.comment,
             json.reset,
@@ -2193,7 +2183,6 @@ Inbound.ShadowsocksSettings.Shadowsocks = class extends XrayCommonClass {
         totalGB = 0,
         expiryTime = 0,
         enable = true,
-        tgId = '',
         subId = RandomUtil.randomLowerAndNum(16),
         comment = '',
         reset = 0
@@ -2206,7 +2195,6 @@ Inbound.ShadowsocksSettings.Shadowsocks = class extends XrayCommonClass {
         this.totalGB = totalGB;
         this.expiryTime = expiryTime;
         this.enable = enable;
-        this.tgId = tgId;
         this.subId = subId;
         this.comment = comment;
         this.reset = reset;
@@ -2221,7 +2209,6 @@ Inbound.ShadowsocksSettings.Shadowsocks = class extends XrayCommonClass {
             totalGB: this.totalGB,
             expiryTime: this.expiryTime,
             enable: this.enable,
-            tgId: this.tgId,
             subId: this.subId,
             comment: this.comment,
             reset: this.reset,
@@ -2237,7 +2224,6 @@ Inbound.ShadowsocksSettings.Shadowsocks = class extends XrayCommonClass {
             json.totalGB,
             json.expiryTime,
             json.enable,
-            json.tgId,
             json.subId,
             json.comment,
             json.reset,

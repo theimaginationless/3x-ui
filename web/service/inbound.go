@@ -3,7 +3,6 @@ package service
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"strings"
 	"time"
 
@@ -1223,65 +1222,6 @@ func (s *InboundService) GetClientByEmail(clientEmail string) (*xray.ClientTraff
 	return nil, nil, common.NewError("Client Not Found In Inbound For Email:", clientEmail)
 }
 
-func (s *InboundService) SetClientTelegramUserID(trafficId int, tgId int64) (bool, error) {
-	traffic, inbound, err := s.GetClientInboundByTrafficID(trafficId)
-	if err != nil {
-		return false, err
-	}
-	if inbound == nil {
-		return false, common.NewError("Inbound Not Found For Traffic ID:", trafficId)
-	}
-
-	clientEmail := traffic.Email
-
-	oldClients, err := s.GetClients(inbound)
-	if err != nil {
-		return false, err
-	}
-
-	clientId := ""
-
-	for _, oldClient := range oldClients {
-		if oldClient.Email == clientEmail {
-			if inbound.Protocol == "trojan" {
-				clientId = oldClient.Password
-			} else if inbound.Protocol == "shadowsocks" {
-				clientId = oldClient.Email
-			} else {
-				clientId = oldClient.ID
-			}
-			break
-		}
-	}
-
-	if len(clientId) == 0 {
-		return false, common.NewError("Client Not Found For Email:", clientEmail)
-	}
-
-	var settings map[string]interface{}
-	err = json.Unmarshal([]byte(inbound.Settings), &settings)
-	if err != nil {
-		return false, err
-	}
-	clients := settings["clients"].([]interface{})
-	var newClients []interface{}
-	for client_index := range clients {
-		c := clients[client_index].(map[string]interface{})
-		if c["email"] == clientEmail {
-			c["tgId"] = tgId
-			newClients = append(newClients, interface{}(c))
-		}
-	}
-	settings["clients"] = newClients
-	modifiedSettings, err := json.MarshalIndent(settings, "", "  ")
-	if err != nil {
-		return false, err
-	}
-	inbound.Settings = string(modifiedSettings)
-	needRestart, err := s.UpdateInboundClient(inbound, clientId)
-	return needRestart, err
-}
-
 func (s *InboundService) checkIsEnabledByEmail(clientEmail string) (bool, error) {
 	_, inbound, err := s.GetClientInboundByEmail(clientEmail)
 	if err != nil {
@@ -1729,45 +1669,6 @@ func (s *InboundService) DelDepletedClients(id int) (err error) {
 	return nil
 }
 
-func (s *InboundService) GetClientTrafficTgBot(tgId int64) ([]*xray.ClientTraffic, error) {
-	db := database.GetDB()
-	var inbounds []*model.Inbound
-
-	// Retrieve inbounds where settings contain the given tgId
-	err := db.Model(model.Inbound{}).Where("settings LIKE ?", fmt.Sprintf(`%%"tgId": %d%%`, tgId)).Find(&inbounds).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
-		logger.Errorf("Error retrieving inbounds with tgId %d: %v", tgId, err)
-		return nil, err
-	}
-
-	var emails []string
-	for _, inbound := range inbounds {
-		clients, err := s.GetClients(inbound)
-		if err != nil {
-			logger.Errorf("Error retrieving clients for inbound %d: %v", inbound.Id, err)
-			continue
-		}
-		for _, client := range clients {
-			if client.TgID == tgId {
-				emails = append(emails, client.Email)
-			}
-		}
-	}
-
-	var traffics []*xray.ClientTraffic
-	err = db.Model(xray.ClientTraffic{}).Where("email IN ?", emails).Find(&traffics).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			logger.Warning("No ClientTraffic records found for emails:", emails)
-			return nil, nil
-		}
-		logger.Errorf("Error retrieving ClientTraffic for emails %v: %v", emails, err)
-		return nil, err
-	}
-
-	return traffics, nil
-}
-
 func (s *InboundService) GetClientTrafficByEmail(email string) (traffic *xray.ClientTraffic, err error) {
 	db := database.GetDB()
 	var traffics []*xray.ClientTraffic
@@ -1919,17 +1820,6 @@ func (s *InboundService) MigrationRequirements() {
 				// Add email='' if it is not exists
 				if _, ok := c["email"]; !ok {
 					c["email"] = ""
-				}
-
-				// Convert string tgId to int64
-				if _, ok := c["tgId"]; ok {
-					var tgId interface{} = c["tgId"]
-					if tgIdStr, ok2 := tgId.(string); ok2 {
-						tgIdInt64, err := strconv.ParseInt(strings.ReplaceAll(tgIdStr, " ", ""), 10, 64)
-						if err == nil {
-							c["tgId"] = tgIdInt64
-						}
-					}
 				}
 
 				// Remove "flow": "xtls-rprx-direct"

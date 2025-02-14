@@ -13,16 +13,6 @@ class AllSetting {
         this.trafficDiff = 0;
         this.remarkModel = "-ieo";
         this.datepicker = "gregorian";
-        this.tgBotEnable = false;
-        this.tgBotToken = "";
-        this.tgBotProxy = "";
-        this.tgBotAPIServer = "";
-        this.tgBotChatId = "";
-        this.tgRunTime = "@daily";
-        this.tgBotBackup = false;
-        this.tgBotLoginNotify = true;
-        this.tgCpu = 80;
-        this.tgLang = "en-US";
         this.xrayTemplateConfig = "";
         this.secretEnable = false;
         this.subEnable = false;
