@@ -2,7 +2,7 @@
 version: "3"
 
 services:
-  3x-ui:
+  3x-ui-ext:
     image: ghcr.io/theimaginationless/3x-ui-ext:latest
     container_name: 3x-ui-ext
     hostname: yourhostname
